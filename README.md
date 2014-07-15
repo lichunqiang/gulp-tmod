@@ -1,6 +1,17 @@
 gulp-tmod
 -------------
 
+[![NPM version][npm-image]][npm-url]
+[![Build Status][travis-image]][travis-url]
+[![Dependency Status][david-dm-image]][david-dm-url]
+
+[npm-url]:         https://badge.fury.io/js/gulp-tmod
+[npm-image]:       https://badge.fury.io/js/gulp-tmod.png
+[travis-url]:      https://travis-ci.org/lichunqiang/gulp-tmod
+[travis-image]:    https://travis-ci.org/lichunqiang/gulp-tmod.png?branch=master
+[david-dm-url]:    https://david-dm.org/lichunqiang/gulp-tmod
+[david-dm-image]:  https://david-dm.org/lichunqiang/gulp-tmod.png?theme=shields.io
+
 > [tmodjs](https://github.com/aui/tmodjs)'s gulp version.
 
 ## Install
