@@ -1,0 +1,18 @@
+{
+	"node": true,
+	"esnext": true,
+	"bitwise": true,
+	"camelcase": true,
+	"curly": true,
+	"immed": true,
+	"newcap": true,
+	"noarg": true,
+	"undef": true,
+	"unused": "vars",
+	"strict": true,
+	"eqeqeq": true,
+	"indent": 4,
+	"evil": false,
+	"maxdepth": 3,
+	"mocha": true
+}	

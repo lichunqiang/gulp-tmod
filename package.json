@@ -1,0 +1,35 @@
+{
+  "name": "gulp-tmod",
+  "version": "0.0.1",
+  "description": "the gulp plugin for tmodjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "gulp &&  gulp jshint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lichunqiang/gulp-tmod"
+  },
+  "keywords": [
+    "gulpplugin",
+    "tmodjs",
+    "seajs",
+    "requirejs"
+  ],
+  "author": "light",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lichunqiang/gulp-tmod/issues"
+  },
+  "homepage": "https://github.com/lichunqiang/gulp-tmod",
+  "devDependencies": {
+    "gulp": "^3.8.6",
+    "gulp-jshint": "^1.7.1",
+    "gulp-watch": "^0.6.8"
+  },
+  "dependencies": {
+    "gulp-util": "^2.2.20",
+    "through2": "^0.5.1",
+    "tmodjs": "^1.0.1-rc5"
+  }
+}
