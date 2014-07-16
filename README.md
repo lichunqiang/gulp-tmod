@@ -37,6 +37,22 @@ gulp.task('default', function(){
 });
 ```
 
+## Watch
+
+```
+gulp.task('watch', function(){
+	return gulp.src('./test/tpl/**/*.html')
+			.pipe(watch(function(files){
+				files.pipe(tmodjs({
+					base: './test/tpl',
+					combo: true,
+					output: './test/dist'
+				}));
+			}));
+});
+```
+More see [gulp-watch](https://github.com/floatdrop/gulp-watch)
+
 ## Test
 
 ```
