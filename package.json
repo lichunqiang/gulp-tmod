@@ -4,7 +4,7 @@
   "description": "the gulp plugin for tmodjs",
   "main": "index.js",
   "scripts": {
-    "test": "gulp &&  gulp jshint"
+    "test": "gulp && gulp test-stream &&  gulp jshint "
   },
   "repository": {
     "type": "git",

@@ -25,8 +25,7 @@ module.exports = function(opts) {
 		}
 
 		if(file.isStream()) {
-			this.emit('error', new gutil.PluginError(PLUGIN_NAME, 'Streaming not support'));
-			return cb();
+			gutil.log('is stream')
 		}
 		paths.push(path.normalize(path.relative(file.base, file.path)));
 		this.push(file);
@@ -41,7 +40,7 @@ module.exports = function(opts) {
 
         tmod.on('compile', function (error, data) {
         	if (error) {
-				that.emit('error', new gutil.PluginError(PLUGIN_NAME, 'Compile error.'));
+				that.emit('error', new gutil.PluginError(PLUGIN_NAME, error));//throw tmodjs error
 				return cb();
         	}
         });

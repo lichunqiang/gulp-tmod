@@ -20,13 +20,20 @@ gulp.task('watch', function(){
 			}));
 });
 
-gulp.task('default', function(){
+gulp.task('test-stream', function(){
+	return gulp.src('./test/tpl/**/*.html', {buffer: false})
+			.pipe(tmodjs({
+				base: './test/tpl',
+				combo: true,
+				output: './test/dist'
+			}));
+});
 
+gulp.task('default', function(){
 	return gulp.src('./test/tpl/**/*.html')
 			.pipe(tmodjs({
 				base: './test/tpl',
 				combo: true,
 				output: './test/dist'
 			}));
-
 });
