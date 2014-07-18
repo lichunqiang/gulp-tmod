@@ -27,7 +27,7 @@ module.exports = function(opts) {
 		paths.push(path.normalize(path.relative(file.base, file.path)));
 		this.push(file);
 		cb();
-			
+
 	}, function(cb){
 		if(paths.length === 0) {
 			return cb();
@@ -35,26 +35,26 @@ module.exports = function(opts) {
 
 		var tmod = new TmodJS(base, opts);
 
-        tmod.on('compile', function (error, data) {
-        	if (error) {
-				that.emit('error', new gutil.PluginError(PLUGIN_NAME, error));//throw tmodjs error
-				return cb();
-        	}
-        });
+    tmod.on('compile', function (error, data) {
+    	if (error) {
+		    that.emit('error', new gutil.PluginError(PLUGIN_NAME, error));//throw tmodjs error
+		    return cb();
+    	}
+    });
 
 
-        tmod.on('combo', function (error, data) {
-        	if (!error) {
-        		var comboFile = path.relative('./', data.outputFile);
-        		gutil.log('File "' + comboFile + '" created.');
-        		cb();
-        	}
-        });
+    tmod.on('combo', function (error, data) {
+    	if (!error) {
+    		var comboFile = path.relative('./', data.outputFile);
+    		gutil.log('File "' + comboFile + '" created.');
+    		cb();
+    	}
+    });
 
-        tmod.on('debug', function (error) {
-        	return cb();
-        });
+    tmod.on('debug', function (error) {
+    	return cb();
+    });
 
-        tmod.compile(paths);
+    tmod.compile(paths);
 	});
 }
