@@ -24,9 +24,6 @@ module.exports = function(opts) {
 			return cb();
 		}
 
-		if(file.isStream()) {
-			gutil.log('is stream')
-		}
 		paths.push(path.normalize(path.relative(file.base, file.path)));
 		this.push(file);
 		cb();
