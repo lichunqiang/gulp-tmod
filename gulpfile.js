@@ -35,5 +35,6 @@ gulp.task('default', function(){
 				base: './test/tpl',
 				combo: true,
 				output: './test/dist'
-			}));
+			})).
+			pipe(gulp.dest('./dest'));
 });

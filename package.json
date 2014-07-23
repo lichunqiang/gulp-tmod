@@ -1,6 +1,6 @@
 {
   "name": "gulp-tmod",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "the gulp plugin for tmodjs",
   "main": "index.js",
   "scripts": {
@@ -28,7 +28,7 @@
     "gulp-watch": "^0.6.8"
   },
   "dependencies": {
-    "gulp-util": "^2.2.20",
+    "gulp-util": "^3.0.0",
     "through2": "^0.5.1",
     "tmodjs": "^1.0.1-rc5"
   }
