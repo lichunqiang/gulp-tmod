@@ -16,13 +16,13 @@ gulp-tmod
 
 ## Install
 
-```
+```sh
 $ npm install gulp-tmod --save-dev
 ```
 
 ## Usage
 
-```
+```javascript
 var tmodjs = require('gulp-tmod');
 
 gulp.task('default', function(){
@@ -39,7 +39,7 @@ gulp.task('default', function(){
 
 ## Watch
 
-```
+```javascript
 gulp.task('watch', function(){
 	return gulp.src('./test/tpl/**/*.html')
 			.pipe(watch(function(files){
@@ -55,7 +55,7 @@ More see [gulp-watch](https://github.com/floatdrop/gulp-watch)
 
 ## Test
 
-```
+```sh
 $ npm test
 ```
 
