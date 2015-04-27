@@ -40,6 +40,7 @@ module.exports = function(opts) {
 		    that.emit('error', new gutil.PluginError(PLUGIN_NAME, error));//throw tmodjs error
 		    return cb();
     	}
+			cb(); //type非defaut时无法正常结束;
     });
 
 
