@@ -1,3 +1,4 @@
+__Notice: Please read this [issue](https://github.com/lichunqiang/gulp-tmod/issues/7)__
 gulp-tmod
 -------------
 
