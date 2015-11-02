@@ -34,6 +34,7 @@ module.exports = function(opts) {
 		}
 
 		var tmod = new TmodJS(base, opts);
+    var that = this;
 
     tmod.on('compile', function (error, data) {
     	if (error) {
