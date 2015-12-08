@@ -24,7 +24,8 @@ module.exports = function(opts) {
 			return cb();
 		}
 
-		paths.push(path.normalize(path.relative(file.base, file.path)));
+		paths.push(path.normalize(path.relative(base, file.path)));
+
 		this.push(file);
 		cb();
 
@@ -56,7 +57,6 @@ module.exports = function(opts) {
     tmod.on('debug', function (error) {
     	return cb();
     });
-
     tmod.compile(paths);
 	});
 }

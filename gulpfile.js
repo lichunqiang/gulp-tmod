@@ -30,7 +30,7 @@ gulp.task('test-stream', function(){
 });
 
 gulp.task('default', function(){
-	return gulp.src('./test/tpl/**/*.html')
+	return gulp.src(['./test/tpl/public/*.html','./test/tpl/comment/*.html'])
 			.pipe(tmodjs({
 				base: './test/tpl',
 				combo: true,
