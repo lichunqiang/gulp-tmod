@@ -4,3 +4,5 @@ test/build
 dest
 npm-debug.log
 .idea
+.tmp
+.temp

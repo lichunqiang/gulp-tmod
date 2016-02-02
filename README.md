@@ -21,44 +21,52 @@ gulp-tmod
 $ npm install gulp-tmod --save-dev
 ```
 
+## Options
+
+#### combo
+Type: `boolean`
+Defualt: `true`
+If combo is false, it won't procude [arttempalte](https://github.com/aui/artTemplate/), you should download it manually.
+
+#### output
+Type: `string`
+Default: '.tmp'
+Since [tmodjs](https://github.com/aui/tmodjs#配置) will alway output something, but it's useless with gulp stream, place it at temp path and it will be delete by default, unless set `delOutput` option `false`.
+
+#### delOutput
+Type: `boolean`
+Default: `true`
+
+
 ## Usage
 
 ```javascript
 var tmodjs = require('gulp-tmod');
 
 gulp.task('default', function(){
-
-	return gulp.src('./test/tpl/**/*.html')
+	var stream = gulp.src('template/**/*.html')
 			.pipe(tmodjs({
-				base: './test/tpl',
 				combo: true,
-				output: './test/dist'
-			}));
-
+				comboFilename: 'combo.js',
+				templateBase: 'template'
+			}))
+			.pipe(gulp.dest('dist'));
+	return stream;
 });
 ```
 
-## Watch
-
-```javascript
-gulp.task('watch', function(){
-	return gulp.src('./test/tpl/**/*.html')
-			.pipe(watch(function(files){
-				files.pipe(tmodjs({
-					base: './test/tpl',
-					combo: true,
-					output: './test/dist'
-				}));
-			}));
-});
-```
-More see [gulp-watch](https://github.com/floatdrop/gulp-watch)
 
 ## Test
 
 ```sh
 $ npm test
 ```
+
+
+## Changelog
+
+#### 2.0.0
+- Tt's a breaking change since 1.0.0.
 
 ## More
 

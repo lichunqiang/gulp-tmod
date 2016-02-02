@@ -1,10 +1,10 @@
 {
   "name": "gulp-tmod",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "description": "the gulp plugin for tmodjs",
   "main": "index.js",
   "scripts": {
-    "test": "gulp && gulp test-stream &&  gulp jshint "
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -23,11 +23,14 @@
   },
   "homepage": "https://github.com/lichunqiang/gulp-tmod",
   "devDependencies": {
-    "gulp": "^3.8.6",
-    "gulp-jshint": "^1.7.1",
-    "gulp-watch": "^0.6.8"
+    "mocha": "*",
+    "should": "^5.0.0",
+    "stream-array": "^1.0.1",
+    "stream-assert": "^2.0.1",
+    "gulp": "^3.9.0"
   },
   "dependencies": {
+    "del": "^2.2.0",
     "gulp-util": "^3.0.0",
     "through2": "^2.0.0",
     "tmodjs": "^1.0.0"
