@@ -1,3 +1,5 @@
+# gulp-tmod [![Build Status](https://travis-ci.org/calledT/gulp-tmod.svg?branch=master)](https://travis-ci.org/calledT/gulp-tmod)
+
 __Notice: Please read this [issue](https://github.com/lichunqiang/gulp-tmod/issues/7)__
 gulp-tmod
 -------------
