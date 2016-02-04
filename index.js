@@ -1,7 +1,6 @@
 'use strict';
 
 var fs = require('fs');
-var del = require('del');
 var path = require('path');
 var gutil = require('gulp-util');
 var through = require('through2');
@@ -15,7 +14,9 @@ module.exports = function(opt) {
   var templatePaths = [];
 
   opt = opt || {};
-  opt.delOutput = opt.delOutput === false ? false : true;
+  opt.cache = false;
+  opt.watch = false;
+  opt.verbose = opt.verbose || false;
   opt.combo = opt.combo === false ? false : true;
 
   if (typeof opt.templateBase === 'string') {
@@ -27,14 +28,15 @@ module.exports = function(opt) {
   if (typeof opt.output === 'string') {
     opt.output = path.join(__dirname, opt.output);
   } else {
-    opt.output = path.join(__dirname, '.tmp');
+    opt.output = false;
   }
 
-  if (typeof opt.comboFilename === 'string') {
-    opt.comboFilename = path.basename(opt.comboFilename);
+  if (typeof opt.runtime === 'string') {
+    opt.runtime = path.basename(opt.runtime);
   } else {
-    opt.comboFilename = 'template.js';
+    opt.runtime = 'template.js';
   }
+
 
   var tmodjs = new TmodJS(opt.templateBase, opt);
   var transformFiles = [];
@@ -83,19 +85,35 @@ module.exports = function(opt) {
         }
 
         var file = new File({
-          path: opt.comboFilename,
+          path: opt.runtime,
           contents: new Buffer(data.output)
         });
 
         this.push(file);
-        opt.delOutput && del(opt.output);
         cb();
       }.bind(this));
       tmodjs.compile(templatePaths);
       return;
     }
 
-    opt.delOutput && del(opt.output);
+    if (!opt.combo && compileCount) {
+      tmodjs._buildRuntime(null, null, function(error, data) {
+        if (error) {
+          cb(new gutil.PluginError(PLUGIN_NAME, error));
+          return;
+        }
+
+        var file = new File({
+          path: opt.runtime,
+          contents: new Buffer(data)
+        });
+
+        this.push(file);
+        cb();
+        return;
+      }.bind(this))
+    }
+
     cb();
   }
 

@@ -1,7 +1,6 @@
 require('mocha');
 
 var fs = require('fs');
-var del = require('del');
 var path = require('path');
 var gulp = require('gulp');
 var File = require('gulp-util').File;
@@ -10,6 +9,7 @@ var should = require('should');
 var assert = require('stream-assert');
 
 function fixtures (glob) { return path.join(__dirname, 'fixtures', glob); }
+function contains (data, str) { return data.contents.toString().should.containEql(str); }
 
 describe('gulp-tmod', function() {
 
@@ -35,14 +35,15 @@ describe('gulp-tmod', function() {
     it('should not combo file', function(done) {
       gulp.src(fixtures('*'))
         .pipe(tmod({combo: false}))
-        .pipe(assert.length(2))
+        .pipe(assert.length(3))
         .pipe(assert.first(function (d) {
-          var c = d.contents.toString();
-          c.should.containEql('test/fixtures/bar');
+          contains(d, 'test/fixtures/bar');
         }))
         .pipe(assert.second(function (d) {
-          var c = d.contents.toString();
-          c.should.containEql('test/fixtures/foo');
+          contains(d, 'test/fixtures/foo');
+        }))
+        .pipe(assert.last(function (d) {
+          contains(d, 'function template');
         }))
         .pipe(assert.end(done));
     })
@@ -52,18 +53,32 @@ describe('gulp-tmod', function() {
         .pipe(tmod({combo: true}))
         .pipe(assert.length(1))
         .pipe(assert.first(function (d) {
-          var c = d.contents.toString();
-          c.should.containEql('test/fixtures/bar') && c.should.containEql('test/fixtures/foo');
+          contains(d, 'test/fixtures/bar') && contains(d, 'test/fixtures/foo');
         }))
         .pipe(assert.end(done));
     })
 
-    it('should use comboFilename option', function(done) {
+    it('should escape', function(done) {
       gulp.src(fixtures('*'))
-        .pipe(tmod({
-          combo: true,
-          comboFilename: 'combo.js'
+        .pipe(tmod({escape: true}))
+        .pipe(assert.first(function (d) {
+          contains(d, '$escape(bar)') && contains(d, '$escape(foo)');
         }))
+        .pipe(assert.end(done))
+    })
+
+    it('should not escape', function(done) {
+      gulp.src(fixtures('*'))
+        .pipe(tmod({escape: false}))
+        .pipe(assert.first(function (d) {
+          contains(d, '$string(bar)') && contains(d, '$string(foo)');
+        }))
+        .pipe(assert.end(done))
+    })
+
+    it('should use runtime option', function(done) {
+      gulp.src(fixtures('*'))
+        .pipe(tmod({combo: true,runtime: 'combo.js'}))
         .pipe(assert.length(1))
         .pipe(assert.first(function (d) {
           path.basename(d.path).should.eql('combo.js');
@@ -75,8 +90,7 @@ describe('gulp-tmod', function() {
       gulp.src(fixtures('*'))
         .pipe(tmod({templateBase: 'test/'}))
         .pipe(assert.first(function (d) {
-          var c = d.contents.toString();
-          c.should.containEql('fixtures/bar') && c.should.containEql('fixtures/foo');
+          contains(d, 'fixtures/bar') && contains(d, 'fixtures/foo');
         }))
         .pipe(assert.end(done));
     })

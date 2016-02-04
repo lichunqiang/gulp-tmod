@@ -1,6 +1,6 @@
 {
   "name": "gulp-tmod",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "the gulp plugin for tmodjs",
   "main": "index.js",
   "scripts": {
@@ -30,9 +30,8 @@
     "gulp": "^3.9.0"
   },
   "dependencies": {
-    "del": "^2.2.0",
     "gulp-util": "^3.0.0",
     "through2": "^2.0.0",
-    "tmodjs": "^1.0.0"
+    "tmodjs": "git@github.com:calledT/tmodjs.git"
   }
 }
