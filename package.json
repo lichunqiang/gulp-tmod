@@ -32,6 +32,6 @@
   "dependencies": {
     "gulp-util": "^3.0.0",
     "through2": "^2.0.0",
-    "tmodjs": "git@github.com:calledT/tmodjs.git"
+    "tmodjs": "https://github.com/calledT/tmodjs.git"
   }
 }
