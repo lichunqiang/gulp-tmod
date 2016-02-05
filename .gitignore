@@ -1,6 +1,4 @@
 node_modules
-test/dist
-test/build
 dest
 npm-debug.log
 .idea
