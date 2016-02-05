@@ -32,6 +32,13 @@ Default: `false`
 
 We use gulp steam other than tmodjs output, so set it to false prevent tmodjs create files.
 
+#### runtime
+Type: `String`
+
+Default: `template.js`
+
+This will be use as a path pass to [gulp-util File](https://github.com/gulpjs/gulp-util#new-fileobj)
+
 #### templateBase
 Default: `__dirname`
 
