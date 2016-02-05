@@ -1,10 +1,4 @@
-__Notice: Please read this [issue](https://github.com/lichunqiang/gulp-tmod/issues/7)__
-gulp-tmod
--------------
-
-[![NPM version][npm-image]][npm-url]
-[![Build Status][travis-image]][travis-url]
-[![Dependency Status][david-dm-image]][david-dm-url]
+# gulp-tmod [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][david-dm-image]][david-dm-url]
 
 [npm-url]:         https://badge.fury.io/js/gulp-tmod
 [npm-image]:       https://badge.fury.io/js/gulp-tmod.png
@@ -12,6 +6,9 @@ gulp-tmod
 [travis-image]:    https://travis-ci.org/lichunqiang/gulp-tmod.png?branch=master
 [david-dm-url]:    https://david-dm.org/lichunqiang/gulp-tmod
 [david-dm-image]:  https://david-dm.org/lichunqiang/gulp-tmod.png?theme=shields.io
+
+__Notice: Please read this [issue](https://github.com/lichunqiang/gulp-tmod/issues/7)__
+
 
 > [tmodjs](https://github.com/aui/tmodjs)'s gulp version.
 
@@ -23,20 +20,30 @@ $ npm install gulp-tmod --save-dev
 
 ## Options
 
-#### combo
-Type: `boolean`
-Defualt: `true`
-If combo is false, it won't procude [arttempalte](https://github.com/aui/artTemplate/), you should download it manually.
+Similar to [tmodjs options](https://github.com/aui/tmodjs#配置) with a bit of difference.
 
-#### output
-Type: `string`
-Default: '.tmp'
-Since [tmodjs](https://github.com/aui/tmodjs#配置) will alway output something, but it's useless with gulp stream, place it at temp path and it will be delete by default, unless set `delOutput` option `false`.
+#### output 
+Default: `false`
 
-#### delOutput
-Type: `boolean`
-Default: `true`
+We use gulp steam other than tmodjs output, so set it to false prevent tmodjs create files.
 
+#### runtime
+Type: `String`
+
+Default: `template.js`
+
+This will be use as a path pass to [gulp-util File](https://github.com/gulpjs/gulp-util#new-fileobj)
+
+#### templateBase
+Default: `__dirname`
+
+Your template basepath.
+
+#### minify 
+Minify is deprecated, we should use [gulp-uglify](https://www.npmjs.com/package/gulp-uglify)
+
+#### cache
+Cache is deprecated, we should use [gulp-cached](https://www.npmjs.com/package/gulp-cached)
 
 ## Usage
 
@@ -47,7 +54,7 @@ gulp.task('default', function(){
 	var stream = gulp.src('template/**/*.html')
 			.pipe(tmodjs({
 				combo: true,
-				comboFilename: 'combo.js',
+				runtime: 'runtime.js',
 				templateBase: 'template'
 			}))
 			.pipe(gulp.dest('dist'));
