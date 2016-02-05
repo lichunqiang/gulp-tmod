@@ -23,11 +23,12 @@
   },
   "homepage": "https://github.com/lichunqiang/gulp-tmod",
   "devDependencies": {
+    "del": "^2.2.0",
+    "gulp": "^3.9.0",
     "mocha": "*",
     "should": "^5.0.0",
     "stream-array": "^1.0.1",
-    "stream-assert": "^2.0.1",
-    "gulp": "^3.9.0"
+    "stream-assert": "^2.0.1"
   },
   "dependencies": {
     "gulp-util": "^3.0.0",

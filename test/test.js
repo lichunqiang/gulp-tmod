@@ -1,6 +1,7 @@
 require('mocha');
 
 var fs = require('fs');
+var del = require('del');
 var path = require('path');
 var gulp = require('gulp');
 var File = require('gulp-util').File;
@@ -9,11 +10,28 @@ var should = require('should');
 var assert = require('stream-assert');
 
 function fixtures (glob) { return path.join(__dirname, 'fixtures', glob); }
-function contains (data, str) { return data.contents.toString().should.containEql(str); }
+
+function compareOuput (filepath, data) {
+  filepath = path.join(__dirname, filepath);
+  if (fs.statSync(filepath)) {
+    var file = fs.readFileSync(filepath);
+    var expected = file.toString();
+    var actual = data.contents.toString();
+    return actual.should.be.equal(expected);
+  } else {
+    throw new Error('filepath not exist');
+  }
+}
 
 describe('gulp-tmod', function() {
 
   describe('tmod()', function() {
+
+    after(function(done){
+      del.sync(path.join(__dirname, '../.tmp/**'));
+      done();
+    });
+
     it('should ignore null files when combo is false', function(done) {
       var stream = tmod({combo: false});
       stream
@@ -34,51 +52,51 @@ describe('gulp-tmod', function() {
 
     it('should not combo file', function(done) {
       gulp.src(fixtures('*'))
-        .pipe(tmod({combo: false}))
+        .pipe(tmod({combo: false, output: '.tmp'}))
         .pipe(assert.length(3))
         .pipe(assert.first(function (d) {
-          contains(d, 'test/fixtures/bar');
+          compareOuput('../.tmp/test/fixtures/bar.js', d);
         }))
         .pipe(assert.second(function (d) {
-          contains(d, 'test/fixtures/foo');
+          compareOuput('../.tmp/test/fixtures/foo.js', d);
         }))
         .pipe(assert.last(function (d) {
-          contains(d, 'function template');
+          compareOuput('../.tmp/template.js', d);
         }))
         .pipe(assert.end(done));
     })
 
     it('should combo file', function(done) {
       gulp.src(fixtures('*'))
-        .pipe(tmod({combo: true}))
+        .pipe(tmod({combo: true, output: '.tmp'}))
         .pipe(assert.length(1))
         .pipe(assert.first(function (d) {
-          contains(d, 'test/fixtures/bar') && contains(d, 'test/fixtures/foo');
+          compareOuput('../.tmp/template.js', d);
         }))
         .pipe(assert.end(done));
     })
 
     it('should escape', function(done) {
       gulp.src(fixtures('*'))
-        .pipe(tmod({escape: true}))
+        .pipe(tmod({escape: true, output: '.tmp'}))
         .pipe(assert.first(function (d) {
-          contains(d, '$escape(bar)') && contains(d, '$escape(foo)');
+          compareOuput('../.tmp/template.js', d);
         }))
         .pipe(assert.end(done))
     })
 
     it('should not escape', function(done) {
       gulp.src(fixtures('*'))
-        .pipe(tmod({escape: false}))
+        .pipe(tmod({escape: false, output: '.tmp'}))
         .pipe(assert.first(function (d) {
-          contains(d, '$string(bar)') && contains(d, '$string(foo)');
+          compareOuput('../.tmp/template.js', d);
         }))
         .pipe(assert.end(done))
     })
 
     it('should use runtime option', function(done) {
       gulp.src(fixtures('*'))
-        .pipe(tmod({combo: true,runtime: 'combo.js'}))
+        .pipe(tmod({combo: true, runtime: 'combo.js'}))
         .pipe(assert.length(1))
         .pipe(assert.first(function (d) {
           path.basename(d.path).should.eql('combo.js');
@@ -88,9 +106,12 @@ describe('gulp-tmod', function() {
 
     it('should use templateBase option', function(done) {
       gulp.src(fixtures('*'))
-        .pipe(tmod({templateBase: 'test/'}))
+        .pipe(tmod({combo: false, templateBase: 'test/', output: '.tmp'}))
         .pipe(assert.first(function (d) {
-          contains(d, 'fixtures/bar') && contains(d, 'fixtures/foo');
+          compareOuput('../.tmp/fixtures/bar.js', d);
+        }))
+        .pipe(assert.second(function (d) {
+          compareOuput('../.tmp/fixtures/foo.js', d);
         }))
         .pipe(assert.end(done));
     })
