@@ -16,6 +16,7 @@ module.exports = function(opt) {
   opt = opt || {};
   opt.cache = false;
   opt.watch = false;
+  opt.minify = false;
   opt.verbose = opt.verbose || false;
   opt.combo = opt.combo === false ? false : true;
 
