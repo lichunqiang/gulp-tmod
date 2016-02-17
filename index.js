@@ -5,6 +5,7 @@ var path = require('path');
 var gutil = require('gulp-util');
 var through = require('through2');
 var TmodJS = require('tmodjs');
+var extend = require("xtend");
 var PluginError = gutil.PluginError;
 var File = gutil.File;
 
@@ -13,33 +14,25 @@ var PLUGIN_NAME = 'gulp-tmod';
 module.exports = function(opt) {
   var templatePaths = [];
 
-  opt = opt || {};
-  opt.cache = false;
-  opt.watch = false;
-  opt.minify = false;
-  opt.verbose = opt.verbose || false;
-  opt.combo = opt.combo === false ? false : true;
+  var defaults = {
+    type: 'default',
+    combo: true,
+    watch: false,
+    minify: false,
+    output: false,
+    verbose: false,
+    runtime: 'template.js',
+    templateBase: __dirname
+  };
 
-  if (typeof opt.templateBase === 'string') {
-    opt.templateBase = opt.templateBase;
-  } else {
-    opt.templateBase = __dirname;
-  }
+  var config = extend({}, defaults, opt);
+  config.runtime = path.basename(config.runtime);
 
-  if (typeof opt.output === 'string') {
-    opt.output = path.join(__dirname, opt.output);
-  } else {
-    opt.output = false;
-  }
-
-  if (typeof opt.runtime === 'string') {
-    opt.runtime = path.basename(opt.runtime);
-  } else {
-    opt.runtime = 'template.js';
-  }
+  if(config.type !== 'default') config.combo = false;
+  if(config.output !== false) config.output = path.join(__dirname, config.output);
 
 
-  var tmodjs = new TmodJS(opt.templateBase, opt);
+  var tmodjs = new TmodJS(config.templateBase, config);
   var transformFiles = [];
   var hasOnCompile = false;
   var compileCount = 0;
@@ -50,9 +43,9 @@ module.exports = function(opt) {
       return;
     }
 
-    var templatePath = path.normalize(path.relative(opt.templateBase, file.path));
+    var templatePath = path.normalize(path.relative(config.templateBase, file.path));
 
-    if(!opt.combo) {
+    if(!config.combo) {
       if (!hasOnCompile) {
         hasOnCompile = true;
         tmodjs.on('compile', function(error, data) {
@@ -78,7 +71,7 @@ module.exports = function(opt) {
   }
 
   function flush(cb) {
-    if (opt.combo && templatePaths.length) {
+    if (config.combo && templatePaths.length) {
       tmodjs.on('combo', function (error, data) {
         if (error) {
           cb(new gutil.PluginError(PLUGIN_NAME, error));
@@ -86,7 +79,7 @@ module.exports = function(opt) {
         }
 
         var file = new File({
-          path: opt.runtime,
+          path: config.runtime,
           contents: new Buffer(data.output)
         });
 
@@ -97,7 +90,7 @@ module.exports = function(opt) {
       return;
     }
 
-    if (!opt.combo && compileCount) {
+    if (!config.combo && compileCount) {
       tmodjs._buildRuntime(null, null, function(error, data) {
         if (error) {
           cb(new gutil.PluginError(PLUGIN_NAME, error));
@@ -105,7 +98,7 @@ module.exports = function(opt) {
         }
 
         var file = new File({
-          path: opt.runtime,
+          path: config.runtime,
           contents: new Buffer(data)
         });
 

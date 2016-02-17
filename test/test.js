@@ -11,7 +11,7 @@ var assert = require('stream-assert');
 
 function fixtures (glob) { return path.join(__dirname, 'fixtures', glob); }
 
-function compareOuput (filepath, data) {
+function compareOutput (filepath, data) {
   filepath = path.join(__dirname, filepath);
   if (fs.statSync(filepath)) {
     var file = fs.readFileSync(filepath);
@@ -55,13 +55,13 @@ describe('gulp-tmod', function() {
         .pipe(tmod({combo: false, output: '.tmp'}))
         .pipe(assert.length(3))
         .pipe(assert.first(function (d) {
-          compareOuput('../.tmp/test/fixtures/bar.js', d);
+          compareOutput('../.tmp/test/fixtures/bar.js', d);
         }))
         .pipe(assert.second(function (d) {
-          compareOuput('../.tmp/test/fixtures/foo.js', d);
+          compareOutput('../.tmp/test/fixtures/foo.js', d);
         }))
         .pipe(assert.last(function (d) {
-          compareOuput('../.tmp/template.js', d);
+          compareOutput('../.tmp/template.js', d);
         }))
         .pipe(assert.end(done));
     })
@@ -71,7 +71,7 @@ describe('gulp-tmod', function() {
         .pipe(tmod({combo: true, output: '.tmp'}))
         .pipe(assert.length(1))
         .pipe(assert.first(function (d) {
-          compareOuput('../.tmp/template.js', d);
+          compareOutput('../.tmp/template.js', d);
         }))
         .pipe(assert.end(done));
     })
@@ -80,7 +80,7 @@ describe('gulp-tmod', function() {
       gulp.src(fixtures('*'))
         .pipe(tmod({escape: true, output: '.tmp'}))
         .pipe(assert.first(function (d) {
-          compareOuput('../.tmp/template.js', d);
+          compareOutput('../.tmp/template.js', d);
         }))
         .pipe(assert.end(done))
     })
@@ -89,7 +89,7 @@ describe('gulp-tmod', function() {
       gulp.src(fixtures('*'))
         .pipe(tmod({escape: false, output: '.tmp'}))
         .pipe(assert.first(function (d) {
-          compareOuput('../.tmp/template.js', d);
+          compareOutput('../.tmp/template.js', d);
         }))
         .pipe(assert.end(done))
     })
@@ -108,10 +108,10 @@ describe('gulp-tmod', function() {
       gulp.src(fixtures('*'))
         .pipe(tmod({combo: false, templateBase: 'test/', output: '.tmp'}))
         .pipe(assert.first(function (d) {
-          compareOuput('../.tmp/fixtures/bar.js', d);
+          compareOutput('../.tmp/fixtures/bar.js', d);
         }))
         .pipe(assert.second(function (d) {
-          compareOuput('../.tmp/fixtures/foo.js', d);
+          compareOutput('../.tmp/fixtures/foo.js', d);
         }))
         .pipe(assert.end(done));
     })

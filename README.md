@@ -42,8 +42,8 @@ Your template basepath.
 #### minify 
 Minify is deprecated, we should use [gulp-uglify](https://www.npmjs.com/package/gulp-uglify)
 
-#### cache
-Cache is deprecated, we should use [gulp-cached](https://www.npmjs.com/package/gulp-cached)
+#### watch
+Watch is deprecated, we should use [gulp.watch](https://github.com/gulpjs/gulp/blob/master/docs/API.md#gulpwatchglob-opts-tasks)
 
 ## Usage
 
@@ -53,8 +53,6 @@ var tmodjs = require('gulp-tmod');
 gulp.task('default', function(){
 	var stream = gulp.src('template/**/*.html')
 			.pipe(tmodjs({
-				combo: true,
-				runtime: 'runtime.js',
 				templateBase: 'template'
 			}))
 			.pipe(gulp.dest('dist'));
