@@ -22,14 +22,14 @@ module.exports = function(opt) {
     output: false,
     verbose: false,
     runtime: 'template.js',
-    templateBase: __dirname
+    templateBase: process.cwd()
   };
 
   var config = extend({}, defaults, opt);
   config.runtime = path.basename(config.runtime);
 
   if(config.type !== 'default') config.combo = false;
-  if(config.output !== false) config.output = path.join(__dirname, config.output);
+  if(config.output !== false) config.output = path.join(process.cwd(), config.output);
 
 
   var tmodjs = new TmodJS(config.templateBase, config);
